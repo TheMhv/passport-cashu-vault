@@ -1,0 +1,25 @@
+# Foundation application configuration
+app-name = "cashu-vault"
+friendly-app-name = "Cashu Vault"
+launcher-app-name = "Cashu Vault"
+description = "Mint, receive, swap, send and melt Cashu ecash tokens on Passport Prime"
+icon = "resources/icon.svg"
+theme = "resources/theme.json"
+app-id = "0x8f7e1e8fed4ee31881aa5519064d9fc6"
+min-keyos-version = "1.4.0-beta2"
+
+[publisher]
+name = "Cashu Vault"
+contact-email = ""
+support-url = ""
+
+[[qr-match-rules]]
+id = "cashu-vault-req"
+priority = 5
+id-localizations = { en = "Cashu Vault request" }
+sub-rules = { ur = { UR = { ur-type = "cashu-vault-req" } } }
+
+[permissions]
+template = ["gui-app", "fs-generic", "navigable"]
+"os/security" = ["GetAppSeed"]
+"os/settings" = ["GetDeviceName", "GetLocale", "GetPrimeColor"]

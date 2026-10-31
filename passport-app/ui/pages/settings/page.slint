@@ -1,0 +1,102 @@
+import { Theme, UISize, ControlSize, ButtonVariant } from "@ui/theme.slint";
+import { Button } from "@ui/button.slint";
+import { Switch } from "@ui/switch.slint";
+import { Navigate } from "../../gen/navigate.slint";
+import { Callbacks } from "../../callbacks.slint";
+import { Heading, Muted } from "../../widgets.slint";
+
+export component SettingsPagePage inherits Rectangle {
+    background: Theme.palette-background;
+
+    VerticalLayout {
+        width: parent.width;
+        height: parent.height;
+        padding-left: Theme.spacing-xl;
+        padding-right: Theme.spacing-xl;
+        padding-top: Theme.spacing-xl + UISize.control-center-status-bar-height;
+        padding-bottom: Theme.spacing-xl;
+        spacing: Theme.spacing-md;
+
+        Heading { text: "Vault Settings"; }
+
+        Switch {
+            label: "PIN above 500 sats";
+            description: "Ask for device PIN before sending or melting 500+ sats.";
+            checked: Callbacks.setting-pin;
+            changed(value) => {
+                Callbacks.setting-pin = value;
+                Callbacks.settings-changed();
+            }
+        }
+
+        Switch {
+            label: "Verify NUT-12 DLEQ proofs";
+            description: "Cryptographically verify every BlindSignature against the mint's pinned key.";
+            checked: Callbacks.setting-verify-dleq;
+            changed(value) => {
+                Callbacks.setting-verify-dleq = value;
+                Callbacks.settings-changed();
+            }
+        }
+
+        Switch {
+            label: "Offline Demo Mint";
+            description: "Enable built-in test mint for interactive Mint, Receive, Swap, Send & Melt.";
+            checked: Callbacks.setting-demo-mode;
+            changed(value) => {
+                Callbacks.setting-demo-mode = value;
+                Callbacks.settings-changed();
+            }
+        }
+
+        if Callbacks.mints.length > 0: Muted {
+            text: "Registered mints (tap Forget twice to remove):";
+            font-size: Theme.font-size-label;
+        }
+
+        Flickable {
+            vertical-stretch: 1;
+            VerticalLayout {
+                width: parent.width;
+                alignment: start;
+                spacing: Theme.spacing-sm;
+                for mint[index] in Callbacks.mints: HorizontalLayout {
+                    spacing: Theme.spacing-sm;
+                    Text {
+                        text: mint.name;
+                        color: Theme.palette-foreground;
+                        font-family: Theme.font-primary;
+                        font-size: Theme.font-size-subtitle;
+                        vertical-alignment: center;
+                        horizontal-stretch: 1;
+                        overflow: elide;
+                    }
+                    Button {
+                        text: Callbacks.forget-armed == index ? "Confirm" : "Forget";
+                        variant: ButtonVariant.secondary;
+                        size: ControlSize.sm;
+                        clicked => {
+                            Callbacks.forget-mint(index);
+                        }
+                    }
+                }
+            }
+        }
+
+        Muted {
+            text: Callbacks.setting-summary;
+            font-size: Theme.font-size-label;
+        }
+
+        Button {
+            width: 100%;
+            text: "Back";
+            size: ControlSize.md;
+            full-width: true;
+            clicked => {
+                Callbacks.forget-armed = -1;
+                Navigate.backward();
+            }
+        }
+    }
+}

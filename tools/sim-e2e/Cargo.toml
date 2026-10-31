@@ -1,0 +1,17 @@
+[package]
+name = "cashu-vault-sim-e2e"
+description = "End-to-end simulator test driver for Cashu Vault on Passport Prime"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "sim-e2e"
+path = "src/main.rs"
+
+[dependencies]
+cashu-vault-core = { path = "../../crates/vault-core" }
+cashu-vault-protocol = { path = "../../crates/vault-protocol" }
+cashu-vault-simdrive = { path = "../../crates/simdrive" }
+cashu-vault-transport = { path = "../../crates/vault-transport" }

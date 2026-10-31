@@ -1,0 +1,38 @@
+[package]
+name = "cashu-vault"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[workspace]
+exclude = [".foundation-sdk"]
+
+[dependencies]
+log = "0.4"
+log-server = { package = "xous-api-log", path = ".foundation-sdk/current/lib/keyos/xous/api/log" }
+serde = { version = "1.0", features = ["derive"] }
+server = { path = ".foundation-sdk/current/lib/keyos/server" }
+slint-keyos-platform = { path = ".foundation-sdk/current/lib/keyos/slint-keyos-platform/runtime" }
+foundation-themes = { path = ".foundation-sdk/current/lib/keyos/sdk/crates/foundation-themes" }
+fs = { path = ".foundation-sdk/current/lib/keyos/api/fs" }
+security = { path = ".foundation-sdk/current/lib/keyos/api/security" }
+
+cashu-vault-core = { path = "../crates/vault-core" }
+cashu-vault-protocol = { path = "../crates/vault-protocol" }
+cashu-vault-service = { path = "../crates/vault-service" }
+cashu-vault-transport = { path = "../crates/vault-transport" }
+
+getrandom = "0.2"
+zeroize = "1"
+
+[build-dependencies]
+slint-keyos-platform-build = { path = ".foundation-sdk/current/lib/keyos/slint-keyos-platform/build" }
+
+[patch.crates-io]
+getrandom = { path = ".foundation-sdk/current/lib/keyos/imports/getrandom" }
+
+[profile.release]
+strip = false
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(keyos)'] }

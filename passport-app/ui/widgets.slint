@@ -1,0 +1,52 @@
+import { Theme } from "@ui/theme.slint";
+import { Utils } from "callbacks.slint";
+
+export component QrCode inherits Rectangle {
+    in property <string> data;
+    background: #ffffff;
+    border-radius: Theme.radius-sm;
+    Image {
+        x: 10px;
+        y: 10px;
+        width: parent.width - 20px;
+        height: parent.height - 20px;
+        source: Utils.qrcode(root.data, #000000, #ffffff);
+        image-rendering: pixelated;
+        image-fit: contain;
+    }
+}
+
+export component AnimatedQr inherits Rectangle {
+    in property <[string]> frames;
+    private property <int> index: 0;
+    QrCode {
+        width: parent.width;
+        height: parent.height;
+        data: root.frames.length > 0 ? root.frames[Math.mod(root.index, root.frames.length)] : "";
+    }
+    Timer {
+        interval: 250ms;
+        running: root.frames.length > 1;
+        triggered() => {
+            root.index = Math.mod(root.index + 1, root.frames.length);
+        }
+    }
+}
+
+export component Heading inherits Text {
+    color: Theme.palette-foreground;
+    font-family: Theme.font-primary;
+    font-size: Theme.font-size-title;
+    font-weight: Theme.font-weight-bold;
+    horizontal-alignment: center;
+    wrap: word-wrap;
+}
+
+export component Muted inherits Text {
+    color: Theme.palette-muted;
+    font-family: Theme.font-primary;
+    font-size: Theme.font-size-subtitle;
+    font-weight: Theme.font-weight-medium;
+    horizontal-alignment: center;
+    wrap: word-wrap;
+}

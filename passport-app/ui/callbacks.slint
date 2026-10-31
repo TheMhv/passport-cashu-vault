@@ -1,0 +1,57 @@
+export struct MintRow {
+    name: string,
+    detail: string,
+}
+
+export struct ReviewRow {
+    label: string,
+    value: string,
+}
+
+export global Utils {
+    pure callback qrcode(string, color, color) -> image;
+}
+
+export global Callbacks {
+    // Vault Home state
+    in-out property <string> balance-sats: "0 sat";
+    in-out property <string> proof-summary: "0 proofs";
+    in-out property <[MintRow]> mints;
+    in-out property <string> status;
+    in-out property <string> notice;
+
+    // Interactive Cashu actions on Passport Prime
+    callback action-mint();
+    callback action-receive();
+    callback action-swap();
+    callback action-send();
+    callback action-melt();
+    callback scan-request();
+
+    // Review screen
+    in-out property <string> review-title;
+    in-out property <string> review-amount;
+    in-out property <[ReviewRow]> review-rows;
+    in-out property <[string]> review-warnings;
+    in-out property <bool> review-needs-pin;
+    callback approve();
+    callback reject();
+
+    // Result screen (QR display for cashuB token or UR reply)
+    in-out property <string> result-title;
+    in-out property <string> result-message;
+    in-out property <[string]> result-frames;
+    in-out property <bool> result-secret;
+    in-out property <bool> result-has-next;
+    callback next();
+    callback scan-next();
+
+    // Settings
+    in-out property <bool> setting-pin: true;
+    in-out property <bool> setting-verify-dleq: true;
+    in-out property <bool> setting-demo-mode: true;
+    in-out property <string> setting-summary;
+    callback settings-changed();
+    in-out property <int> forget-armed: -1;
+    callback forget-mint(int);
+}

@@ -1,0 +1,145 @@
+import { Theme, UISize, ControlSize, ButtonVariant } from "@ui/theme.slint";
+import { Button } from "@ui/button.slint";
+import { Card } from "@ui/card.slint";
+import { Navigate } from "../gen/navigate.slint";
+import { Callbacks } from "../callbacks.slint";
+import { Heading, Muted } from "../widgets.slint";
+
+export component MainPagePage inherits Rectangle {
+    background: Theme.palette-background;
+
+    VerticalLayout {
+        width: parent.width;
+        height: parent.height;
+        padding-left: Theme.spacing-xl;
+        padding-right: Theme.spacing-xl;
+        padding-top: Theme.spacing-lg + UISize.control-center-status-bar-height;
+        padding-bottom: Theme.spacing-lg;
+        spacing: Theme.spacing-sm;
+
+        Heading { text: "Cashu Vault"; }
+
+        // Balance summary card
+        Rectangle {
+            background: Theme.palette-card;
+            border-radius: Theme.radius-sm;
+            border-width: 1px;
+            border-color: Theme.palette-border;
+            VerticalLayout {
+                padding: Theme.spacing-md;
+                spacing: Theme.spacing-xs;
+                Text {
+                    text: Callbacks.balance-sats;
+                    color: Theme.palette-primary;
+                    font-family: Theme.font-primary;
+                    font-size: Theme.font-size-lg;
+                    font-weight: Theme.font-weight-bold;
+                    horizontal-alignment: center;
+                }
+                Muted {
+                    text: Callbacks.proof-summary;
+                    font-size: Theme.font-size-label;
+                }
+            }
+        }
+
+        Flickable {
+            vertical-stretch: 1;
+            VerticalLayout {
+                width: parent.width;
+                alignment: start;
+                spacing: Theme.spacing-sm;
+                for mint in Callbacks.mints: Card {
+                    width: 100%;
+                    title: mint.name;
+                    body: mint.detail;
+                }
+            }
+        }
+
+        if Callbacks.notice != "": Muted {
+            text: Callbacks.notice;
+            font-size: Theme.font-size-label;
+        }
+
+        if Callbacks.status != "": Text {
+            text: Callbacks.status;
+            color: Theme.palette-danger;
+            font-family: Theme.font-primary;
+            font-size: Theme.font-size-label;
+            horizontal-alignment: center;
+            wrap: word-wrap;
+        }
+
+        // Row 1: Mint & Receive
+        HorizontalLayout {
+            spacing: Theme.spacing-sm;
+            Button {
+                horizontal-stretch: 1;
+                text: "Mint";
+                size: ControlSize.md;
+                full-width: true;
+                clicked => { Callbacks.action-mint(); }
+            }
+            Button {
+                horizontal-stretch: 1;
+                text: "Receive";
+                size: ControlSize.md;
+                full-width: true;
+                clicked => { Callbacks.action-receive(); }
+            }
+        }
+
+        // Row 2: Swap & Send
+        HorizontalLayout {
+            spacing: Theme.spacing-sm;
+            Button {
+                horizontal-stretch: 1;
+                text: "Swap";
+                variant: ButtonVariant.secondary;
+                size: ControlSize.md;
+                full-width: true;
+                clicked => { Callbacks.action-swap(); }
+            }
+            Button {
+                horizontal-stretch: 1;
+                text: "Send";
+                variant: ButtonVariant.secondary;
+                size: ControlSize.md;
+                full-width: true;
+                clicked => { Callbacks.action-send(); }
+            }
+        }
+
+        // Row 3: Melt & Scan QR
+        HorizontalLayout {
+            spacing: Theme.spacing-sm;
+            Button {
+                horizontal-stretch: 1;
+                text: "Melt";
+                variant: ButtonVariant.secondary;
+                size: ControlSize.md;
+                full-width: true;
+                clicked => { Callbacks.action-melt(); }
+            }
+            Button {
+                horizontal-stretch: 1;
+                text: "Scan QR";
+                size: ControlSize.md;
+                full-width: true;
+                clicked => { Callbacks.scan-request(); }
+            }
+        }
+
+        Button {
+            width: 100%;
+            text: "Settings";
+            variant: ButtonVariant.secondary;
+            size: ControlSize.sm;
+            full-width: true;
+            clicked => {
+                Navigate.settings-page({ });
+            }
+        }
+    }
+}

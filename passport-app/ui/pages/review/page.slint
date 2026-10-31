@@ -1,0 +1,106 @@
+import { Theme, UISize, ControlSize, ButtonVariant } from "@ui/theme.slint";
+import { Button } from "@ui/button.slint";
+import { Callbacks } from "../../callbacks.slint";
+import { Heading, Muted } from "../../widgets.slint";
+
+export component ReviewPagePage inherits Rectangle {
+    background: Theme.palette-background;
+
+    VerticalLayout {
+        width: parent.width;
+        height: parent.height;
+        padding-left: Theme.spacing-xl;
+        padding-right: Theme.spacing-xl;
+        padding-top: Theme.spacing-xl + UISize.control-center-status-bar-height;
+        padding-bottom: Theme.spacing-xl;
+        spacing: Theme.spacing-md;
+
+        Heading { text: Callbacks.review-title; }
+
+        if Callbacks.review-amount != "": Text {
+            text: Callbacks.review-amount;
+            color: Theme.palette-primary;
+            font-family: Theme.font-primary;
+            font-size: Theme.font-size-lg;
+            font-weight: Theme.font-weight-bold;
+            horizontal-alignment: center;
+        }
+
+        Flickable {
+            vertical-stretch: 1;
+            VerticalLayout {
+                width: parent.width;
+                alignment: start;
+                spacing: Theme.spacing-sm;
+
+                for row in Callbacks.review-rows: Rectangle {
+                    background: Theme.palette-card;
+                    border-radius: Theme.radius-sm;
+                    border-width: 1px;
+                    border-color: Theme.palette-border;
+                    VerticalLayout {
+                        padding: Theme.spacing-md;
+                        spacing: Theme.spacing-xs;
+                        Text {
+                            text: row.label;
+                            color: Theme.palette-muted;
+                            font-family: Theme.font-primary;
+                            font-size: Theme.font-size-label;
+                        }
+                        Text {
+                            text: row.value;
+                            color: Theme.palette-foreground;
+                            font-family: Theme.font-primary;
+                            font-size: Theme.font-size-subtitle;
+                            font-weight: Theme.font-weight-semibold;
+                            wrap: char-wrap;
+                        }
+                    }
+                }
+
+                for warning in Callbacks.review-warnings: Rectangle {
+                    background: Theme.color-warning.with-alpha(0.15);
+                    border-radius: Theme.radius-sm;
+                    VerticalLayout {
+                        padding: Theme.spacing-md;
+                        Text {
+                            text: warning;
+                            color: Theme.palette-foreground;
+                            font-family: Theme.font-primary;
+                            font-size: Theme.font-size-label;
+                            wrap: word-wrap;
+                        }
+                    }
+                }
+            }
+        }
+
+        if Callbacks.review-needs-pin: Muted {
+            text: "Approving asks for your PIN.";
+            font-size: Theme.font-size-label;
+        }
+
+        HorizontalLayout {
+            spacing: Theme.spacing-md;
+            Button {
+                horizontal-stretch: 1;
+                text: "Reject";
+                variant: ButtonVariant.secondary;
+                size: ControlSize.lg;
+                full-width: true;
+                clicked => {
+                    Callbacks.reject();
+                }
+            }
+            Button {
+                horizontal-stretch: 1;
+                text: "Approve";
+                size: ControlSize.lg;
+                full-width: true;
+                clicked => {
+                    Callbacks.approve();
+                }
+            }
+        }
+    }
+}

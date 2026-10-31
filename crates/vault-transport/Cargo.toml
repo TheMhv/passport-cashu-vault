@@ -1,0 +1,13 @@
+[package]
+name = "cashu-vault-transport"
+description = "Animated UR QR framing and simulator file bridge for Cashu Vault on Passport Prime"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+cashu-vault-protocol = { path = "../vault-protocol" }
+foundation-ur.workspace = true
+minicbor.workspace = true
+hex.workspace = true

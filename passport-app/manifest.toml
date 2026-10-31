@@ -1,0 +1,71 @@
+appId = "0x8f7e1e8fed4ee31881aa5519064d9fc6"
+publisher = "Cashu Vault"
+description = "Mint, receive, swap, send and melt Cashu ecash tokens on Passport Prime"
+version = "0.1.0"
+minKeyosVersion = "1.4.0-beta2"
+memory = []
+syscall = []
+
+[appName]
+en = "Cashu Vault"
+
+[servers]
+
+[fixedSids]
+
+[permissions]
+"os/fs" = [
+    "AsyncCopyBlock",
+    "AsyncRead",
+    "AsyncWrite",
+    "AtomicCopy",
+    "CloseDir",
+    "CloseFile",
+    "CreateDirMessage",
+    "Flush",
+    "GetMetadata",
+    "MapFileMessage",
+    "NextEntry",
+    "OpenDirMessage",
+    "OpenFileMessage",
+    "ReadFile",
+    "Remove",
+    "Rename",
+    "SeekFile",
+    "SetLen",
+    "SubscribeFilesystemEvent",
+    "TruncateFile",
+    "WriteFile",
+]
+"os/gui-server" = [
+    "AnimateNextFrame",
+    "FinishResponse",
+    "GetPendingNavRequest",
+    "HideKeyboard",
+    "NavigationCancel",
+    "RegisterAppMessage",
+    "RequestRedraw",
+    "ShowModal",
+    "SubmitFrame",
+    "UpdateKeyboard",
+]
+"os/security" = ["GetAppSeed"]
+"os/settings" = [
+    "GetDebugTouch",
+    "GetDeviceName",
+    "GetLocale",
+    "GetPrimeColor",
+    "GetSystemTheme",
+    "SubscribeDebugTouch",
+    "SubscribeSystemTheme",
+]
+
+[[qrMatchRules]]
+id = "cashu-vault-req"
+priority = 5
+
+[qrMatchRules.idLocalizations]
+en = "Cashu Vault request"
+
+[qrMatchRules.subRules.ur.UR]
+ur_type = "cashu-vault-req"

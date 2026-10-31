@@ -1,0 +1,17 @@
+[package]
+name = "cashu-vault-service"
+description = "Stateful Cashu Vault service for Passport Prime: NUT-13 blinding, proof storage, reviews, and policy"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+cashu-vault-core = { path = "../vault-core" }
+cashu-vault-protocol = { path = "../vault-protocol" }
+bitcoin.workspace = true
+ciborium.workspace = true
+hex.workspace = true
+lightning-invoice.workspace = true
+serde.workspace = true
+zeroize.workspace = true

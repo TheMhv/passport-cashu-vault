@@ -1,0 +1,19 @@
+[package]
+name = "cashu-vault-cli"
+description = "Host companion CLI and mint relay for Cashu Vault on Passport Prime"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "vault-cli"
+path = "src/main.rs"
+
+[dependencies]
+cashu-vault-core = { path = "../../crates/vault-core" }
+cashu-vault-protocol = { path = "../../crates/vault-protocol" }
+cashu-vault-transport = { path = "../../crates/vault-transport" }
+hex.workspace = true
+serde.workspace = true
+serde_json.workspace = true

@@ -1,0 +1,15 @@
+import { Theme, UISize, Images } from "@ui/theme.slint";
+import { Router } from "gen/router.slint";
+import { Callbacks, Utils, MintRow, ReviewRow } from "callbacks.slint";
+
+export { Theme, Images, Callbacks, Utils, MintRow, ReviewRow }
+export * from "gen/exports.slint";
+
+export component AppWindow inherits Window {
+    title: "Cashu Vault";
+    preferred-width: UISize.screen-width;
+    preferred-height: UISize.screen-height;
+    background: Theme.palette-background;
+
+    Router { }
+}
